@@ -1,7 +1,7 @@
 {
   "name": "frida_server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Lightweight server to test request manipulation and modification with frida",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,5 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.21.2"
+  },
+  "engines": {
+    "node": ">=18.9.0"
   }
 }
