@@ -4,3 +4,5 @@ __pycache__/
 output/
 __handlers__/
 package-lock.json
+docs/
+assets/

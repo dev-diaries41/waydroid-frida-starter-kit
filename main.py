@@ -2,11 +2,13 @@ import frida
 import sys
 import json
 import os
-import time 
 
-OUTPUT_PATH = f"output/function_trace_output_{time.time().__ceil__()}.txt"
-SCRIPT_PATH = "scripts/functions.js"
-APP_PACKAGE_NAME = "Indie U"
+# List of script paths to load
+# SCRIPT_PATHS = [ "scripts/ssl.js", "scripts/react.js",  "scripts/alerts.js"]
+SCRIPT_PATHS = [ "scripts/storage.js",  "scripts/rn.js"]
+
+APP_PACKAGE_NAME = "Frida Play"
+OUTPUT_PATH = f"output/{APP_PACKAGE_NAME.lower().replace(' ', '')}_request_output.txt"
 
 def on_message(message, data):
     if message['type'] == 'send':
@@ -26,15 +28,16 @@ try:
     session = device.attach(APP_PACKAGE_NAME)
     print(f"[+] Attached to app: {APP_PACKAGE_NAME}")
 
-    # Load the Frida script
-    with open(SCRIPT_PATH) as f:
-        script = session.create_script(f.read())
-    print(f"[+] Loaded script from {SCRIPT_PATH}")
+    # Load each script
+    for script_path in SCRIPT_PATHS:
+        with open(script_path) as f:
+            script = session.create_script(f.read())
+        print(f"[+] Loaded script from {script_path}")
 
-    # Set message handler
-    script.on("message", on_message)
-    script.load()
-    print("[*] Script successfully injected and running...")
+        # Set message handler for each script
+        script.on("message", on_message)
+        script.load()
+        print(f"[*] Script {script_path} successfully injected and running...")
 
     # Keep the script running
     sys.stdin.read()
@@ -42,6 +45,6 @@ try:
 except frida.ProcessNotFoundError:
     print(f"[!] App {APP_PACKAGE_NAME} not found. Make sure it's running.")
 except FileNotFoundError:
-    print(f"[!] Script file {SCRIPT_PATH} not found.")
+    print(f"[!] One or more script files not found.")
 except Exception as e:
     print(f"[!] Unexpected error: {e}")
