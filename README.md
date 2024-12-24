@@ -17,7 +17,7 @@ Before using this kit, ensure the following are installed on your system:
   Required to interact with Android devices and emulators.  
   Install via:
   ```bash
-  sudo apt-get install adb
+  sudo apt install android-tools
   ```
 
 - **Waydroid**  
