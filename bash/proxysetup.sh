@@ -18,7 +18,6 @@ if [ "$local" = "-r" ]; then # check if is via router
 	sudo iptables -t nat -A PREROUTING -i wlp0s20f3 -p udp --dport 443 -j REDIRECT --to-port 8080
 	sudo ip6tables -t nat -A PREROUTING -i wlp0s20f3 -p tcp --dport 80 -j REDIRECT --to-port 8080
 	sudo ip6tables -t nat -A PREROUTING -i wlp0s20f3 -p tcp --dport 443 -j REDIRECT --to-port 8080
-    mitmproxy --mode transparent --showhost --set block_global=false  --listen-port 8080
 fi
 
 if [ "$local" = "-w" ]; then # check if is local waydroid vm, simple
@@ -27,7 +26,6 @@ if [ "$local" = "-w" ]; then # check if is local waydroid vm, simple
 	sudo iptables -t nat -A PREROUTING -i waydroid0 -p tcp --dport 443 -j REDIRECT --to-port 8080
 	sudo ip6tables -t nat -A PREROUTING -i waydroid0 -p tcp --dport 80 -j REDIRECT --to-port 8080
 	sudo ip6tables -t nat -A PREROUTING -i waydroid0 -p tcp --dport 443 -j REDIRECT --to-port 8080
-    # mitmweb --mode transparent --showhost --set block_global=false  --listen-port 8080
 	adb shell settings put global http_proxy "192.168.240.1:8080"
 	adb shell settings put global https_proxy "192.168.240.1:8080"  
 fi
