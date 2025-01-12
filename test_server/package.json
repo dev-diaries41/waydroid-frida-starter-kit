@@ -1,5 +1,5 @@
 {
-  "name": "frida_server",
+  "name": "test_server",
   "version": "1.0.0",
   "description": "Lightweight server to test request manipulation and modification with frida",
   "main": "index.js",
