@@ -58,7 +58,7 @@ $ sudo mkdir -p /var/lib/waydroid/overlay/system/etc/security/cacerts/
 3. Copy the certificate, renaming it to the hash from step 1, with .0 appended, and set the proper permissions for it:
 
 ```bash
-$ sudo cp my-ca-cert.pem /var/lib/waydroid/overlay/system/etc/security/cacerts/13acab12.0
+$ sudo cp Portswigger.der /var/lib/waydroid/overlay/system/etc/security/cacerts/13acab12.0
 $ sudo chmod 644 /var/lib/waydroid/overlay/system/etc/security/cacerts/13acab12.0
 ```
 
