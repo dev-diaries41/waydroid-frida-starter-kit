@@ -68,66 +68,64 @@ Make sure to replace `Portswigger.der` with the actual path to the .der file you
 
 The `bash/` directory includes various scripts designed to manage the Frida server and proxy settings on Waydroid.
 
-### Available Scripts
 
-- **fridasetup.sh**  
-  Installs and sets up the Frida server on Waydroid.
-  
-- **fridaserver.sh**  
-  Starts or stops the Frida server on the Waydroid container based on the corresponding flag -start or -stop.
+Here's your updated **README** reflecting the merged **proxy.sh** script:  
 
-- **proxysetup.sh**  
-  Configures the proxy settings to route traffic through Frida, enabling interaction with apps.
-  
-- **proxyrevert.sh**  
-  Reverts any proxy settings back to default after testing.
+---
 
+### **Available Scripts**  
 
-### Usage Example
+- **frida.sh**  
+  Manages the Frida server on Waydroid, including setup, starting, and stopping.  
 
-1. **Setup Frida Server on Waydroid**  
-   Run the `fridasetup.sh` script to install the necessary Frida server on your Waydroid container.
-   ```bash
-   ./bash/fridasetup.sh
-   ```
+- **proxy.sh**  
+  Configures and resets proxy settings for routing traffic through Frida, either via a **router** (`-r`) or **Waydroid VM** (`-w`).  
 
-2. **Start the Frida Server**  
-   Start the Frida server on Waydroid using:
-   ```bash
-   ./bash/fridaserver.sh -start
-   ```
+---
 
-3. **Stop the Frida Server**  
-   To stop the Frida server, use:
-   ```bash
-   ./bash/fridaserver.sh -stop
-   ```
+### **Usage**  
 
-4. **Configure Proxy**  
-   Set up proxy settings to route traffic through Frida. You can configure the proxy for either router-based traffic or Waydroid VM-based traffic by using the `-r` or `-w` flags:
+#### **1. Setup Frida Server on Waydroid**  
+Run the `frida.sh` script with the `-setup` flag to install the necessary Frida server on your Waydroid container.  
+```bash
+./frida.sh -setup
+```
 
-   - For router-based traffic (local network):
-     ```bash
-     ./bash/proxysetup.sh -r
-     ```
+#### **2. Start the Frida Server**  
+Start the Frida server on Waydroid:  
+```bash
+./frida.sh -start
+```
 
-   - For Waydroid VM-based traffic:
-     ```bash
-     ./bash/proxysetup.sh -w
-     ```
+#### **3. Stop the Frida Server**  
+To stop the Frida server, use:  
+```bash
+./frida.sh -stop
+```
 
-5. **Revert Proxy Settings**  
-   If you need to revert the proxy settings, use the following commands:
+#### **4. Setup Proxy for Traffic Interception**  
+To redirect traffic through Frida, use:  
+- **Router-based traffic redirection**  
+  ```bash
+  ./proxy.sh setup -r
+  ```
+- **Waydroid VM traffic redirection**  
+  ```bash
+  ./proxy.sh setup -w
+  ```
 
-   - To revert router traffic proxy settings:
-     ```bash
-     ./bash/proxyrevert.sh -r
-     ```
+#### **5. Reset Proxy Settings**  
+To revert proxy settings back to default, use:  
+- **Reset router-based proxy settings**  
+  ```bash
+  ./proxy.sh reset -r
+  ```
+- **Reset Waydroid VM proxy settings**  
+  ```bash
+  ./proxy.sh reset -w
+  ```
 
-   - To revert Waydroid VM traffic proxy settings:
-     ```bash
-     ./bash/proxyrevert.sh -w
-     ```
+---
 
 
 ## Frida Scripts
