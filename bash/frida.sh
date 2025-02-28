@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Function to check if a device is connected
 check_device() {
   adb devices | grep -w "device" > /dev/null
   if [ $? -ne 0 ]; then
@@ -9,7 +8,6 @@ check_device() {
   fi
 }
 
-# Function to create and activate a virtual environment
 setup_venv() {
   echo "[INFO] Setting up virtual environment..."
   python3 -m venv venv
@@ -26,24 +24,27 @@ setup_venv() {
   fi
 }
 
-# Function to download and set up Frida server
 setup_frida_server() {
   echo "[INFO] Downloading Frida server..."
-  wget https://github.com/frida/frida/releases/download/16.5.9/frida-server-16.5.9-android-x86_64.xz
+  FRIDA_VERSION="16.5.9"
+  FRIDA_ARCH="android-x86_64"
+  FRIDA_FILENAME="frida-server-${FRIDA_VERSION}-${FRIDA_ARCH}.xz"
+
+  wget "https://github.com/frida/frida/releases/download/${FRIDA_VERSION}/${FRIDA_FILENAME}"
   if [ $? -ne 0 ]; then
     echo "[ERROR] Failed to download Frida server."
     exit 1
   fi
 
   echo "[INFO] Decompressing Frida server..."
-  unxz frida-server-16.5.9-android-x86_64.xz
+  unxz "${FRIDA_FILENAME}"
   if [ $? -ne 0 ]; then
     echo "[ERROR] Failed to decompress Frida server."
     exit 1
   fi
 
-  mv frida-server-16.5.9-android-x86_64 frida-server
-  echo "[INFO] Pushing Frida server to Waydroid..."
+  mv "frida-server-${FRIDA_VERSION}-${FRIDA_ARCH}" frida-server
+  echo "[INFO] Pushing Frida server to device..."
   adb push frida-server /data/local/tmp/
   if [ $? -ne 0 ]; then
     echo "[ERROR] Failed to push Frida server."
@@ -58,15 +59,13 @@ setup_frida_server() {
   fi
 }
 
-
+# Function to start the Frida server
 start_frida_server() {
-  # Start the Frida server in the background using nohup or disown
+  echo "[INFO] Starting Frida server..."
   adb shell "su -c '/data/local/tmp/frida-server &'" &
 
-  # Wait briefly to allow the server to start
-  sleep 2
+  sleep 2  # Allow time for the server to start
 
-  # Check if Frida server is running
   adb shell "ps | grep frida-server" > /dev/null
   if [ $? -ne 0 ]; then
     echo "[ERROR] Failed to start Frida server."
@@ -74,15 +73,43 @@ start_frida_server() {
   else
     echo "[INFO] Frida server started successfully."
   fi
-} 
+}
 
+# Function to stop the Frida server
+stop_frida_server() {
+  echo "[INFO] Stopping Frida server..."
+  pid=$(adb shell "ps | grep frida-server" | awk '{print $2}')
+  
+  if [ -n "$pid" ]; then
+    echo "[INFO] Found frida-server with PID: $pid"
+    adb shell "su -c 'kill $pid'"
+    echo "[INFO] Frida server stopped successfully."
+  else
+    echo "[ERROR] Frida server process not found."
+  fi
+}
 
-# Main execution flow
-check_device
-setup_venv
-setup_frida_server
-start_frida_server
+case "$1" in
+  -setup)
+    check_device
+    setup_venv
+    setup_frida_server
+    echo "[INFO] Setup completed successfully."
+    ;;
+  -start)
+    check_device
+    start_frida_server
+    ;;
+  -stop)
+    check_device
+    stop_frida_server
+    ;;
+  *)
+    echo "Usage: $0 [-setup|-start|-stop]"
+    echo "  -setup   Install Frida and set up the environment"
+    echo "  -start   Start the Frida server"
+    echo "  -stop    Stop the Frida server"
+    exit 1
+    ;;
+esac
 
-echo "[INFO] All steps completed successfully. You can now inject your Frida script using the following command:"
-echo "frida -U -f <app_package_name> -l /path/to/your/script.js --no-pause"
-exit 0
