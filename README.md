@@ -1,6 +1,6 @@
 # Waydroid Frida Starter Kit
 
-This repository provides a comprehensive set of tools and information to start pentesting Android applications using Frida. It's specifically designed for use with **Waydroid**, but the included scripts can also be adapted for other Android devices or emulators with minimal adjustments. I focused on waydroid because it provides the perfect development environment pentesting and also when i was starting to pentest android apps myself, i noticed there was little information about doing it using waydroid.
+This repository provides a comprehensive set of tools and information to start pentesting Android applications using Frida. It's specifically designed for use with **Waydroid**, but the included scripts can also be adapted for other Android devices or emulators with minimal adjustments. I focused on waydroid because it provides the perfect development environment for pentesting and also when i was starting to pentest android apps myself, i noticed there was little information about doing it using waydroid.
 
 ## Table of Contents
 
