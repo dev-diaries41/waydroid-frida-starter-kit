@@ -64,16 +64,9 @@ $ sudo chmod 644 /var/lib/waydroid/overlay/system/etc/security/cacerts/13acab12.
 
 Make sure to replace `Portswigger.der` with the actual path to the .der file you exported from Burpsuite and replace `13acab12` with the acutal hash produced in step 1. You may need to restart waydroid.
 
-## Bash Scripts
-
-The `bash/` directory includes various scripts designed to manage the Frida server and proxy settings on Waydroid.
-
-
-Here's your updated **README** reflecting the merged **proxy.sh** script:  
-
 ---
 
-### **Available Scripts**  
+## Bash Scripts  
 
 - **frida.sh**  
   Manages the Frida server on Waydroid, including setup, starting, and stopping.  
@@ -81,7 +74,6 @@ Here's your updated **README** reflecting the merged **proxy.sh** script:
 - **proxy.sh**  
   Configures and resets proxy settings for routing traffic through Frida, either via a **router** (`-r`) or **Waydroid VM** (`-w`).  
 
----
 
 ### **Usage**  
 
@@ -130,5 +122,5 @@ To revert proxy settings back to default, use:
 
 ## Frida Scripts
 
-The `scripts/` directory contains various Frida scripts designed to assist in pentesting Android applications.
+The `scripts/` directory contains various Frida scripts designed to assist in pentesting Android applications. These scripts are NOT perfect or meant for production level pentesting but should help you get familiar with android pentesting.
 
